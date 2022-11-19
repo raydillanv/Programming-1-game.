@@ -57,4 +57,13 @@ public class Parser
         else
             return new Command(null, word2);
     }
+    //8.16
+    /**
+     * Print out a list of non-hidden valid command words.
+     */
+    public String showCommands()
+    {
+        return commands.showAll();
+    }
+    
 }

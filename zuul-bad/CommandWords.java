@@ -1,3 +1,4 @@
+import java.util.Arrays;
 /**
  * This class is part of the "World of Zuul" application. 
  * "World of Zuul" is a very simple, text based adventure game.  
@@ -46,5 +47,15 @@ public class CommandWords
         }
         // if we get here, the string was not found in the commands
         return false;
+    }
+    //8.16
+    /**
+     * Print all non-hidden Commands.
+     */
+    public String showAll()
+    {
+        String done = Arrays.toString(validCommands);
+        
+        return done;
     }
 }

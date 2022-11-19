@@ -4,7 +4,7 @@
  * @author William H. Hooper
  * @version 2010-04-19
  */
-public class zuul
+public class exchangeJAAC
 {
     /**
      *  Main play routine.  Loops until end of play.
@@ -24,5 +24,5 @@ public class zuul
     
     // declare constructor private
     // to ensure static invocation
-    private zuul() {}
+    private exchangeJAAC() {}
 }

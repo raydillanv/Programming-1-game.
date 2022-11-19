@@ -19,11 +19,7 @@ public class Room
     private String imageName;
     private String audioName;
     
-    public Room northExit;
-    public Room southExit;
-    public Room eastExit;
-    public Room westExit;
-    public static int count;
+    public int count;
     private HashMap<String, Room> exits;
     /**
      * Create a room described "description". Initially, it has
@@ -55,27 +51,9 @@ public class Room
     /**
      * Define the exits of this room.  Every direction either leads
      * to another room or is null (no exit there).
-     * @param north The north exit.
-     * @param east The east east.
-     * @param south The south exit.
-     * @param west The west exit.
-     */
-    // public void setExits(Room north, Room east, Room south, Room west) 
-    // {
-        // if(north != null) {
-            // northExit = north;
-        // }
-        // if(east != null) {
-            // eastExit = east;
-        // }
-        // if(south != null) {
-            // southExit = south;
-        // }
-        // if(west != null) {
-            // westExit = west;
-        // }
-    // }
-    
+     * @param String direction
+     * @param Room nextRoom
+     */    
     public void setExit(String direction, Room nextRoom)
     {
         exits.put(direction, nextRoom);
@@ -116,8 +94,15 @@ public class Room
     
     public String getLongDescription()
     {
-        incrementCount();
-        return description + "\n" + getExitString();
+        //incrementCount();
+        if(count == 1){
+            return description + "\n" + getExitString() + "\n" 
+            + "You have visited this room previously " 
+                + getCount() + " time.";
+        }
+        return description + "\n" + getExitString() + "\n" 
+            + "You have visited this room previously " 
+                + getCount() + " times.";
     }
     
     /*************************************************************

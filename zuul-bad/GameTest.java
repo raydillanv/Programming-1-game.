@@ -60,7 +60,7 @@ public class GameTest
     @Test
     public void noDoor()
     {
-        assertEquals(true, console1.testCommand("go north", "no door!"));
+        assertEquals(true, console1.testCommand("go left", "Ouch"));
     }
 
     @Test
@@ -72,18 +72,18 @@ public class GameTest
         assertEquals(true, console1.testCommand("anything", "game is over"));
     }
 
-    @Test
-    public void theater()
-    {
-        assertEquals(true, console1.testCommand("go east", "theater"));
-    }
+    //@Test
+    //public void theater()
+    //{
+    //    assertEquals(true, console1.testCommand("go east", "theater"));
+    //}
 
-    @Test
-    public void office()
-    {
-        console1.testCommand("go south");
-        assertEquals(true, console1.testCommand("go east", "office"));
-    }
+    //@Test
+    //public void office()
+    //{
+    //    console1.testCommand("go south");
+    //    assertEquals(true, console1.testCommand("go east", "office"));
+    //}
 
     @Test
     public void help()

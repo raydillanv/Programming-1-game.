@@ -1,9 +1,7 @@
+import java.util.Stack;
 /**
- *  This class is the main class of the "World of Zuul" application. 
- *  "World of Zuul" is a very simple, text based adventure game.  Users 
- *  can walk around some scenery. That's all. It should really be extended 
- *  to make it more interesting!
- * 
+ *  This class is the main class of the "exchangeJAAC" application.
+ *  
  *  To play this game, create an instance of this class and call the "play"
  *  method.
  * 
@@ -12,7 +10,8 @@
  *  executes the commands that the parser returns.
  * 
  * @author  Michael Kölling and David J. Barnes
- * @version 2016.02.29
+ * @author Dillan Victory
+ * @version 2022.11.19
  */
 
 public class Game 
@@ -20,6 +19,7 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private Room previousRoom;
+    private Stack<Room> otherRooms;
 
     /**
      * Create the game and initialise its internal map.
@@ -28,6 +28,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+        otherRooms = new Stack<>();
     }
 
     /**
@@ -253,6 +254,7 @@ public class Game
         //Stairs_F1; 
 
         JAAC_Entrance.setExit("right", Language_Center);
+        JAAC_Entrance.setExit("winterWonderland", Easter_Egg1);
 
         Language_Center.setExit("right", Elevator_F1);
         Language_Center.setExit("left", JAAC_Entrance);
@@ -274,39 +276,22 @@ public class Game
         //Room_2149;
 
         //Stairs_F2.setExit("
-
+        
+        
+        Easter_Egg1.setImage("whiteChristmas.jpg");
+        Easter_Egg1.setAudio("whiteChristmas.mp3");
+        
+        
         currentRoom = JAAC_Entrance;
 
         //talking
 
-        
     }
-
     /**
      * Print out the opening message for the player.
      */
     private void printWelcome()
     {
-        //println();
-        // println("Welcome to the World of Zuul!");
-        // println("World of Zuul is a new, incredibly boring adventure game.");
-        // println("Type 'help' if you need help.");
-        // println();
-        //println("You are at " + currentRoom.getDescription());
-        // print("Exits: ");
-        // if(currentRoom.northExit != null) {
-        // print("north ");
-        // }
-        // if(currentRoom.eastExit != null) {
-        // print("east ");
-        // }
-        // if(currentRoom.southExit != null) {
-        // print("south ");
-        // }
-        // if(currentRoom.westExit != null) {
-        // print("west ");
-        // }
-
         println(currentRoom.getLongDescription());
     }
 
@@ -320,10 +305,24 @@ public class Game
     {
         println("What are you looking at?");
     }
-    
+
     private void yes(Command speech)
     {
         println("Why don't you go yes yourself.");
+    }
+    //8.23 & 8.26
+    /**
+     * This method will return the user to the previous room.
+     */
+    private void back()
+    {
+        if(otherRooms.empty())
+            println("You can't go back any longer!");
+        else{
+            Room currentRoom = otherRooms.pop();
+            println(currentRoom.getLongDescription());
+            
+        }   
     }
     
     /**
@@ -333,7 +332,7 @@ public class Game
      */
     private void processCommand(Command command) 
     {
-        
+
         if(command.isUnknown()) {
             println("I don't know what you mean...");
             return;
@@ -361,6 +360,9 @@ public class Game
         else if (commandWord.equals("no")) {
 
         }
+        else if (commandWord.equals("back")) {
+            back();
+        }
     }
     // implementations of user commands:
 
@@ -375,7 +377,7 @@ public class Game
         println("around in the JAAC the university.");
         println();
         println("Your command words are:");
-        println("   go quit help");
+        println(parser.showCommands());
     }
 
     /** 
@@ -384,6 +386,7 @@ public class Game
      */
     private void goRoom(Command command) 
     {
+        
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             println("Go where?");
@@ -392,7 +395,13 @@ public class Game
         }
 
         String direction = command.getSecondWord();
-
+        //add to otherRooms stack
+        otherRooms.push(currentRoom);
+        
+        //System.out.println(currentRoom.getDescription());
+        previousRoom = currentRoom;
+        previousRoom.incrementCount();
+        
         //direction.
         Room nextRoom = null;
         nextRoom = currentRoom.getExit(direction);
@@ -403,7 +412,7 @@ public class Game
         }
         else {
             currentRoom = nextRoom;
-
+                        
             println(currentRoom.getLongDescription());
             //println();
         }
